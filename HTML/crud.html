@@ -1,0 +1,75 @@
+<h2>Cat Factory</h2>
+
+<div class="note">all fields required</div>
+
+<form name="dataEntry">
+  <p><label>Name:</label> 
+    <input 
+    type="text"
+    ng-model="formData.name" 
+    required>
+  </p>
+  <p><label>Age:</label> 
+    <input 
+    type="number" 
+    ng-model="formData.age" 
+    required>
+  </p>
+  <p><label>Address:</label> 
+    <input 
+    type="text"
+    ng-model="formData.address" 
+    required>
+  </p>
+  <p><input 
+    type="button" 
+    value="Add a cat" 
+    ng-disabled="dataEntry.$invalid" 
+    ng-click="post(formData)"/>
+  </p>
+</form>
+
+<h2>Kitty Kennel</h2>
+
+<div class="note">click entry to edit</div>
+
+<div ng-repeat="cat in allTheCats"> 
+
+  <div 
+    id="manyCats" 
+    ng-click="cat.hidden = true; focusInput=true" 
+    ng-hide="cat.hidden">
+    {{cat.name}} is {{cat.age}} and lives in {{cat.address}} 
+  </div>
+
+  <span>
+    <input 
+      type="button"
+      id="delete"
+      value="X"
+      ng-hide="cat.hidden" 
+      ng-click="delete(cat.uid)"/>
+  </span>
+
+  <div 
+    ng-hide="!cat.hidden" 
+    deep-blur="update(cat.name, cat.age, cat.address, cat.uid)">
+    <input 
+      type="text" 
+      ng-model="cat.name" 
+      focus-me="focusInput" 
+      id="tobeFocused"
+      required>
+    <input 
+      type="number" 
+      ng-model="cat.age"
+      required>
+    <input 
+      type="text" 
+      ng-model="cat.address"
+      required>
+  </div>
+
+</div>
+
+

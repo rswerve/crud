@@ -1,0 +1,25 @@
+#container{
+  width: 500px;
+  padding-left: 30px;
+  font-family: "Lucida Sans Unicode", "Lucida Grande", sans-serif;
+}
+
+#manyCats {
+  display: inline-block;
+  margin: 5px;
+}
+
+#delete {
+  background-color: #F5BCD1;
+}
+
+.note {
+  font-size: 10px;
+  margin-bottom: 20px;
+}
+
+label {
+  display: inline-block;
+  width: 70px;
+}
+

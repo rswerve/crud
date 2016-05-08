@@ -7,6 +7,8 @@ app.use(bodyParser.urlencoded({
     extended: true
 }));
 
+app.use(express.static(__dirname+'/'))
+
 app.listen(5000, function(){
   console.log('Express listening on 5000')
 })
@@ -21,8 +23,10 @@ var knex = require('knex')({
 var bookshelf = require('bookshelf')(knex)
 
 knex.schema.createTableIfNotExists('kittens', function(kittens){
-  kittens.increments('uid').primary();
-  kittens.string('name');
+  kittens.increments('uid').primary()
+  kittens.string('name')
+  kittens.string('address')
+  kittens.integer('age')
 }).then(function(table){
   console.log('created table')
 })
@@ -32,8 +36,7 @@ var Kitten = bookshelf.Model.extend({
   idAttribute: 'uid'
 })
 
-//get all records
-app.get('/', function (req, res){
+app.get('/cats', function (req, res){
   new Kitten().fetchAll()
               .then(function(cats){
                 res.send(cats)
@@ -43,25 +46,12 @@ app.get('/', function (req, res){
             })
 })
 
-//get one record
-app.get('/:id', function (req, res){
-  Kitten.forge({'uid': req.params.id})
-        .fetch()
-        .then(function(cat){
-          if(cat === null){
-            res.send('No such record')
-          } else {
-          res.send(cat)
-          }
-      }).catch(function(error){
-          console.error(error)
-          res.send("Error retrieving your cat")
+app.post('/cats', function (req, res){
+  var cat = new Kitten({
+    name: req.body.name, 
+    age: req.body.age, 
+    address: req.body.address
   })
-})
-
-//add a record
-app.post('/', function (req, res){
-  var cat = new Kitten({name: req.body.name})
   cat.save()
      .then(function(saved_cat){
         res.send(saved_cat.toJSON())
@@ -71,13 +61,19 @@ app.post('/', function (req, res){
    })
 })
 
-//update a record
-app.put('/:id', function (req, res){
-  Kitten.where({'uid': req.params.id})
+app.put('/cats/:id', function (req, res){
+  Kitten.where({'uid': req.body.id})
         .fetch()
         .then(function (cat){
           if (cat !== null){
-            cat.save({name: req.body.name, uid: req.params.id}, {patch: true})
+            cat.save(
+              {
+              name: req.body.name, 
+              age: req.body.age, 
+              address: req.body.address
+              }, 
+              {patch: true}
+            )
             .then(function(updated_cat){
               res.send(updated_cat.toJSON())
             }).catch(function(error){
@@ -90,15 +86,14 @@ app.put('/:id', function (req, res){
         })
 })
 
-//delete a record
-app.delete('/:id', function (req, res){
-  Kitten.forge({uid: req.params.id})
+app.delete('/cats/:id', function (req, res){
+  Kitten.forge({uid: req.params.id.slice(1)})
         .destroy()
         .then(function(){
           res.send('Record deleted')
       }).catch(function(error){
           console.error(error)
-          res.send('Failed to delete record')
+          res.send('Failed to delete cat')
       })
 })
 
