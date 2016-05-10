@@ -19,11 +19,11 @@ functionality.
  
  
 Technology Requirements:
-    - server
-- nodejs
-- expressjs with session store
-    - client
-- angular, ember, or react (pick one)
+- server
+ - nodejs
+ - expressjs with session store
+- client
+ - angular, ember, or react (pick one)
  
 Client description
     - Simple front end CRUD form submission
@@ -33,15 +33,15 @@ Client description
         - age (number) (number input)
         - address (string)
  
-    - there should be a list that displays all stored resources and the
+ - there should be a list that displays all stored resources and the
 ability to click and edit the resource
-    - you should be able to click on a stored resource and edit it and
+ - you should be able to click on a stored resource and edit it and
 update it to the server
-    - you should be able to delete existing resources
+ - you should be able to delete existing resources
  
-    - any updates UPDATES to the resource should be done on focus off of
+ - any updates UPDATES to the resource should be done on focus off of
 the field
-    - there should be a delete button that explicitly removes the
+ - there should be a delete button that explicitly removes the
 resource. This should prompt the user to confirm they want to delete
 (note, only store in server session storage, don't worry about database)
  
